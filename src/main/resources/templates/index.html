@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <meta charset="utf-8">
+      <title>Log in with your account</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <link href="/css/main.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <form class="form-signin" method="GET" th:action="@{/users}">
+        <h2 class="form-heading">Log in</h2>
+
+        <div class="form-group">
+            <span th:text="${message}"></span>
+            <input name="user" type="text" class="form-control" placeholder="Username" autofocus="true"/>
+
+            <input name="pass" type="pass" class="form-control" placeholder="Password"/>
+            <span class="has-error" th:text="${error}"></span>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+            <h4 class="text-center"><a href="/registration">Create an account</a></h4>
+        </div>
+      </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" ></script>
+    <script src="/js/main.js"></script>
+    <script type="text/javascript">
+    
+    const updateRequest = ( solicitud_id ) => {
+    	var status = $("#"+solicitud_id).val();
+    	var data_json = ` { "id": ${solicitud_id} , "requestStatus" : "${status}" }`;
+    
+    $.ajax({
+        type: "PUT",
+        url: "requests",
+        contentType: "application/json",
+        data: data_json,
+        success: function(response){
+          location.reload()
+        },
+        error: function(error){
+           //alert('No Actualizado')//
+          }
+        });
+    }
+
+     </script>
+  </body>
+</html>

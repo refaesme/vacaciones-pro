@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Log in with your account</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+<nav th:replace="nav.html :: nav"> </nav>
+	<h2>Creacion de Usuarios</h2>
+	<div class="container">
+		
+        
+        <br/>
+		
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Id</th>
+                	<th scope="col">Rol Id</th>
+                	<th scope="col">Nombre Usuario</th>
+                	<th scope="col">Rut Colaborador</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+   			
+   					<td></td>
+   					<td><input th:id="id_colaborador" type="text" placeholder="Rut Collaborador"></input></td>
+   					<td >
+   						<select th:id="id_rol">
+   							<option th:value='1'>ADMIN</option>
+   							<option th:value='0'>USER</option>
+   						</select>
+   					</td>
+   					<td ><input th:id="id_nombre" type="text" placeholder="Nombre usuario"></input></td>
+   					<td ><input th:id="id_pass" type="password" placeholder="password"></input></td>
+   					<td><button th:onclick="'addUser()'">Crear</button></td>	
+				</tr>
+				<tr th:each="usuario : ${usuarios}">
+   					<td th:text="${usuario.id}"></td>
+   					<td th:text="${usuario.rolId}"></td>
+   					<td th:text="${usuario.userName}"></td>
+   					<td th:text="${usuario.rutCollaborator}"></td>
+   					
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+    
+    const addUser = () => {
+    	var rut = $("#id_colaborador").val();
+    	var rol = $("#id_rol").val();
+    	var nombre = $("#id_nombre").val();
+    	var pass = $("#id_pass").val();
+    	
+    	var data_json = ` { "passWord": "${pass}" , "rolId" : "${rol}" , "userName" : "${nombre}" }`;
+    
+	    $.ajax({
+	        type: "POST",
+	        url: "users/"+rut,
+	        contentType: "application/json",
+	        data: data_json,
+	        success: function(response){
+	          location.reload()
+	        },
+	        error: function(error){
+	           alert('No Actualizado')//
+	          }
+	        });
+	    }
+
+     </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Log in with your account</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+<nav th:replace="nav.html :: nav"> </nav>
+	<h2>Creacion de Colaboradores</h2>
+	<div class="container">
+		<br/>
+		
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Nombre</th>
+                	<th scope="col">Apellido</th>
+                	<th scope="col">E-mail</th>
+                	<th scope="col">rut</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+   			
+   					<td><input th:id="id_nombre" type="text" placeholder="Nombre"></input></td>
+   					<td><input th:id="id_apellido" type="text" placeholder="Apellido"></input></td>
+   					<td ><input th:id="id_correo" type="email" placeholder="correo"></input></td>
+   					<td ><input th:id="id_rut" type="number" placeholder="rut"></input></td>
+   					<td><button th:onclick="'addCollaborator()'">Crear</button></td>	
+				</tr>
+				<tr th:each="colaborador : ${colaboradores}">
+   					<td th:text="${colaborador.name}"></td>
+   					<td th:text="${colaborador.surName}"></td>
+   					<td th:text="${colaborador.email}"></td>
+   					<td th:text="${colaborador.id}"></td>	
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+    
+    const addCollaborator = () => {
+    	var nombre = $("#id_nombre").val();
+    	var apellido = $("#id_apellido").val();
+    	var email = $("#id_correo").val();
+    	var rut = $("#id_rut").val();
+    	
+    	var data_json = ` { "email": "${email}" , "name" : "${nombre}" , "rut" : "${rut}", "surName" : "${apellido}" }`;
+    
+	    $.ajax({
+	        type: "POST",
+	        url: "collaborators",
+	        contentType: "application/json",
+	        data: data_json,
+	        success: function(response){
+	          location.reload()
+	        },
+	        error: function(error){
+	           alert('No Actualizado')//
+	          }
+	        });
+	    }
+
+     </script>
+</body>
+</html>
